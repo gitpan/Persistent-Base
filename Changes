@@ -1,5 +1,16 @@
 Revision history for the Persistent Base package.
 
+Changes in Persistent 0.51	22 Feb 2000
+
+  Fixed a problem with file locking related to the following platforms:
+
+    o hpux 10.20 PA-RISC1.1
+    o sco 3.2v5.0.4 i386-sco
+    o solaris 2.7 sun4-solaris
+
+  Now a shared lock is obtained using a read-only file handle and an
+  exclusive lock uses a write-only file handle.
+
 Changes in Persistent 0.50	07 Feb 2000
 
   Alright, I'm lame.  I never got around to submitting Persistent to

@@ -590,19 +590,27 @@ sub _lock_datastore {
 
   $this->_trace();
 
-  ### set the flock type ###
+  ### set the flock and open types ###
   my $flock_type = LOCK_SH;
+  my $open_type  = '<';
   if ($lock_type =~ /ex/i) {
     $flock_type = LOCK_EX;
+    $open_type  = '>';
   }
 
   ### get the file info ###
   my $file = $this->{DataStore}->{File};
 
-  ### exclusively lock the file ###
-  open(LOCK_FH, ">$file.lock") or croak "Can't open $file.lock: $!";
+  ### create the file if it does not exist ###
+  if (! -e "$file.lock") {
+    open(LOCK_FH, ">$file.lock") or croak "Can't create $file.lock: $!";
+    close(LOCK_FH);
+  }
+
+  ### lock the file ###
+  open(LOCK_FH, "${open_type}$file.lock") or croak "Can't open $file.lock: $!";
   flock(LOCK_FH, $flock_type) or
-    croak "Can't lock ($lock_type) $file.lock: $!";
+    croak "Can't lock ($lock_type, $open_type) $file.lock: $!";
 }
 
 ########################################################################
@@ -622,6 +630,7 @@ sub _unlock_datastore {
 
   ### unlock the file ###
   flock(LOCK_FH, LOCK_UN);
+  close(LOCK_FH);
 }
 
 ### end of library ###

@@ -1,5 +1,20 @@
 Base
 ----
+o add Greg's foreign key datatype
+
+o add HTML docs to distributions
+
+o document the add_attribute method better
+    explain the datatypes and args in more detail
+
+o add an example that processes a CGI form submission
+
+o add an example that reports on the CGI form submissions
+    email any submissions that occurred during the last week
+
+o document the restore_where method better for the Base classes
+    explain how to do comparisions with the various datatypes (esp. DateTime)
+
 o better query parser, possibly use SQL::Stmt
     - fully support SQL WHERE clauses
 

@@ -24,7 +24,7 @@ use vars qw($VERSION $REVISION $AUTOLOAD);
 use Carp;
 use English;
 
-$VERSION = '0.50';
+$VERSION = '0.51';
 $REVISION = (qw$Revision: 1.15 $)[1];
 
 =head1 NAME
