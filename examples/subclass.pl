@@ -2,7 +2,7 @@
 ########################################################################
 # File:     subclass.pl
 # Author:   David Winters <winters@bigsnow.org>
-# RCS:      $Id: subclass.pl,v 1.2 2000/02/08 02:33:45 winters Exp $
+# RCS:      $Id: subclass.pl,v 1.3 2000/02/26 03:39:35 winters Exp winters $
 #
 # An example script that uses inheritance (a subclass) of a
 # Persistent class.
@@ -30,7 +30,7 @@ eval {
   mkdir('data', 0777) unless -d 'data';
 
   ### allocate a persistent object ###
-  $person = new Person('data/people.dbm', undef, 'DB_File');
+  $person = new Person('data/people.dbm', undef, 'SDBM_File');
   
   ########################################################################
   #

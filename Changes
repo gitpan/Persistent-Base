@@ -1,5 +1,22 @@
 Revision history for the Persistent Base package.
 
+Changes in Persistent 0.52	25 Feb 2000
+
+  Thanks to Mike Blazer (blazer@mail.nevalink.ru), I was able to
+  modify DBM.pm and File.pm to work under Windows95/98 and other ports
+  of Perl that do not have a flock system call implemented.  The
+  following changes were made to allow this:
+
+  o Removed the use of POSIX.pm for the O_* constants and instead use
+    Fcntl.pm for these constants now.
+  o Put an eval block around all of the flock system calls to ignore
+    any errors related to flock not being implemented on that platform.
+    For example:
+
+      eval { flock(LOCK_FH, $flock_type) or
+        croak "Can't lock ($lock_type) $file.lock: $!";
+      }; undef $@;
+
 Changes in Persistent 0.51	22 Feb 2000
 
   Fixed a problem with file locking related to the following platforms:

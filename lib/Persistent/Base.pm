@@ -1,7 +1,7 @@
 ########################################################################
 # File:     Base.pm
 # Author:   David Winters <winters@bigsnow.org>
-# RCS:      $Id: Base.pm,v 1.15 2000/02/08 02:35:02 winters Exp $
+# RCS:      $Id: Base.pm,v 1.16 2000/02/26 03:38:28 winters Exp winters $
 #
 # An abstract base class for persistent objects.
 # This class should be inherited by other persistent classes that
@@ -24,8 +24,8 @@ use vars qw($VERSION $REVISION $AUTOLOAD);
 use Carp;
 use English;
 
-$VERSION = '0.51';
-$REVISION = (qw$Revision: 1.15 $)[1];
+$VERSION = '0.52';
+$REVISION = (qw$Revision: 1.16 $)[1];
 
 =head1 NAME
 

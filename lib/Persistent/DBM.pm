@@ -1,7 +1,7 @@
 ########################################################################
 # File:     DBM.pm
 # Author:   David Winters <winters@bigsnow.org>
-# RCS:      $Id: DBM.pm,v 1.6 2000/02/08 02:35:02 winters Exp $
+# RCS:      $Id: DBM.pm,v 1.7 2000/02/26 03:38:28 winters Exp winters $
 #
 # An abstract class that implements object persistence using a DBM file.
 # This class inherits from other persistent classes.
@@ -22,8 +22,7 @@ use vars qw(@ISA $VERSION $REVISION);
 
 use Carp;
 use English;
-use Fcntl ':flock';                        # import LOCK_* constants
-use POSIX;
+use Fcntl qw(:flock O_CREAT O_RDWR);         # import LOCK_* constants
 
 ### we are a subclass of the all-powerful Persistent::Memory class ###
 use Persistent::Memory;
@@ -31,7 +30,7 @@ use Persistent::Memory;
 
 ### copy version number from superclass ###
 $VERSION = $Persistent::Memory::VERSION;
-$REVISION = (qw$Revision: 1.6 $)[1];
+$REVISION = (qw$Revision: 1.7 $)[1];
 
 =head1 NAME
 
@@ -609,8 +608,11 @@ sub _lock_datastore {
 
   ### lock the file ###
   open(LOCK_FH, "${open_type}$file.lock") or croak "Can't open $file.lock: $!";
-  flock(LOCK_FH, $flock_type) or
-    croak "Can't lock ($lock_type, $open_type) $file.lock: $!";
+  eval {
+    flock(LOCK_FH, $flock_type) or
+      croak "Can't lock ($lock_type, $open_type) $file.lock: $!";
+  };
+  undef $EVAL_ERROR;  ### in case flock is not implemented ###
 }
 
 ########################################################################
@@ -629,7 +631,11 @@ sub _unlock_datastore {
   $this->_trace();
 
   ### unlock the file ###
-  flock(LOCK_FH, LOCK_UN);
+  eval {
+    flock(LOCK_FH, LOCK_UN);
+  };
+  undef $EVAL_ERROR;  ### in case flock is not implemented ###
+
   close(LOCK_FH);
 }
 
